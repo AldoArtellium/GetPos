@@ -37,27 +37,27 @@ if [ "$FIRST_TIME_LIB" != "False" ]; then
 	cd $PWD
 	updatedb
 	export LD_PATH="$LD_PATH:/usr/local/lib"
+	
+	#cleanup ?
+	read -p "Do you want to remove the temporary folder ? " -n 1 -r
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+    		rm -rf .tmp_aruco/
+	fi
+	
 	export FIRST_TIME_LIB="False"
 fi
 
 #ask to configure aruco
-read -p "Do you want to make a configuration file now ? " -n 1 -r
+read -p "Do you want to make a configuration file now (need graphical env)? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    echo "Usage:  "
-    read
     aruco_calibration live calib.yml -size 0.03 -save
     CALIBRATION_FILE="$(pwd)/calib.yml"
 fi
 
 #end
-echo the calibration file is 
-cd $PWD && cd ..
+echo the calibration file is in users directory
 
-#cleanup ?
-read -p "Do you want to remove the temporary folder ? " -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    rm -rf .tmp_aruco/
-fi
+
 
